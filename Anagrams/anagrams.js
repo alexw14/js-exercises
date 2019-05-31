@@ -15,12 +15,16 @@
  */
 
 const findAnagrams = (firstString, secondString) => {
-  let firstWord = firstString.replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g, "");
-  firstWord = firstWord.replace(/\s/g, '').toLowerCase();
-  firstWord = firstWord.split('').sort().join('');
+  // remove punctuation
+  let firstWord = firstString.replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g, ""); 
   let secondWord = secondString.replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g, "");
+  // remove spaces
+  firstWord = firstWord.replace(/\s/g, '').toLowerCase();
   secondWord = secondWord.replace(/\s/g, '').toLowerCase();
+  // sort alphabetically
+  firstWord = firstWord.split('').sort().join('');
   secondWord = secondWord.split('').sort().join('');
+  
   return firstWord === secondWord;
 };
 
