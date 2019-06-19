@@ -52,3 +52,46 @@ function getProductsOfAllIntsExceptAtIndex(arr) {
     return ans;
 }
 console.log(getProductsOfAllIntsExceptAtIndex([1, 7, 3, 4]));
+
+// Exercise A1 (15 mins): Write an algorithm called sumDigits that takes a non-negative integer as input and returns the sum of the integers.
+/*
+
+input = 198
+
+198 % 10 => 8
+Math.floor(198/10) => 19
+
+19 % 10 => 9
+Math.floor(19/10) => 1
+
+1 % 10 => 1
+Math.floor(1/10) = 0
+
+*/
+
+function sumDigits(i) {
+    // base case if i < 10;
+    if (i < 10) {
+        return i;
+    }
+    return i%10 + sumDigits(Math.floor(i/10));
+}
+
+console.log(sumDigits(198)); // 198 => 18
+
+// Exercise A2 (15 minutes): Write an algorithm called pow that takes a number and raises it to a power. 
+// For example pow(2,3) should return 8 because 2^3 = 2 * 2 * 2.
+
+function pow(a, b) {
+    if (b === 1) {
+        return a;
+    }
+    return a * pow(a, b-1);
+}
+console.log(pow(2,3));
+
+/*
+first stack; 2 * pow(2,2)
+second stack: 2 * pow(2,1)
+third stack: 2 * pow(2,0) => return a
+*/
