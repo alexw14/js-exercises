@@ -62,7 +62,7 @@ console.log(foodThoughts());
 
 console.log('Scope Example');
 // function scope
-if (5 > 4) {
+if (2 > 1) {
   var secret = '1234';
 }
 console.log(secret); // print 1234
@@ -73,7 +73,7 @@ function secret() {
 //console.log(secret2); // secret2 is not defined
 
 // with ES6, using let and const keyword will create block scope
-if (5 > 4) {
+if (2 > 1) {
   let secret3 = '1234';
 }
 //console.log(secret3); // secret is not defined
@@ -93,7 +93,8 @@ function letLoop() {
   for (let i = 0; i < 5; i++) {
     console.log(i);
   }
-  console.log('final ' + i);
+  console.log('final ' + i); // i is not defined here because it's outside of the block scope
 }
 // letLoop();
 // Error, i is not defined in line 96.
+
