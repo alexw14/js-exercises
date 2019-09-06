@@ -61,3 +61,34 @@ for (var i = 0; i < array.length; i++) {
   })(i);
 }
 // outputs 0, 1, 2, 3
+
+// Using closure to keep value
+function addNumber(baseNum) {
+  return function(num) {
+    return baseNum + num; // closure allows us to reference baseNum even though it's declared outside of the function
+  }
+}
+
+let addTenTo = addNumber(10);
+console.log(addTenTo(6)); // 16
+console.log(addTenTo(24)); // 34
+
+// Using closure to keep private variables
+function count() {
+  let counter = 0;
+  return {
+    add: function(increment) {
+      counter += increment;
+    },
+    getCounter: function() {
+      return 'The counter is ' + counter;
+    }
+  }
+}
+
+// console.log(counter);  // Error: counter is not defined
+
+let c = count();
+c.add(6);
+c.add(9);
+console.log(c.getCounter()); // The counter is 15
