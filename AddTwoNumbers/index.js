@@ -1,5 +1,7 @@
 /*
-You are given two non-empty linked lists representing two non-negative integers. The digits are stored in reverse order and each of their nodes contain a single digit. Add the two numbers and return it as a linked list.
+You are given two non-empty linked lists representing two non-negative integers. 
+The digits are stored in reverse order and each of their nodes contain a single digit. 
+Add the two numbers and return it as a linked list.
 
 You may assume the two numbers do not contain any leading zero, except the number 0 itself.
 
@@ -9,8 +11,6 @@ Output: 7 -> 0 -> 8
 Explanation: 342 + 465 = 807.
 */
 
-
-// Definition for singly-linked list.
 class ListNode {
   constructor(val) {
     this.val = val;
@@ -36,7 +36,7 @@ function addTwoNumbers(l1, l2) {
     if (l2 !== null) l2 = l2.next;
     node = node.next;
   }
-  if (carry > 0) {
+  if (carry === 1) {
     let newNode = new ListNode(1);
     node.next = newNode;
   }
