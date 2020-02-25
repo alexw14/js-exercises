@@ -1,1 +1,1 @@
-## Repository for my JavaScript exercises.
+## Repository for my JavaScript learning and exercises.
