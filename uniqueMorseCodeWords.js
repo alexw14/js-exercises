@@ -21,30 +21,25 @@ The transformation of each word is:
 There are 2 different transformations, "--...-." and "--...--.".
 */
 
-const morseCode = [".-","-...","-.-.","-..",".","..-.","--.","....","..",".---","-.-",".-..","--","-.","---",".--.","--.-",".-.","...","-","..-","...-",".--","-..-","-.--","--.."];
-
-var uniqueMorseRepresentations = function(words) {
-  const morseCodeMap = buildMap(morseCode);
+const uniqueMorseRepresentations = (words) => {
+  const morseCodeMap = buildMorseCodeMap();
   const map = {};
-  for (let i = 0; i < words.length; i++) {
-      let tempArr = words[i].split('');
-      let tempStr = '';
-      tempArr.forEach(letter => {
-          tempStr += morseCodeMap[letter];
-      });
-      if (map[tempStr]) {
-          map[tempStr]++;
-      } else {
-          map[tempStr] = 1;
-      }
+  for (let word of words) {
+    let tempWord = word.split('');
+    let tempMorseCode = '';
+    for (let letter of tempWord) {
+      tempMorseCode += morseCodeMap[letter];
+    }
+    map[tempMorseCode] ? map[tempMorseCode]++ : map[tempMorseCode] = 1;
   }
   return Object.keys(map).length;
 };
 
-const buildMap = (arr) => {
+const buildMorseCodeMap = () => {
+  const morseCode = [".-", "-...", "-.-.", "-..", ".", "..-.", "--.", "....", "..", ".---", "-.-", ".-..", "--", "-.", "---", ".--.", "--.-", ".-.", "...", "-", "..-", "...-", ".--", "-..-", "-.--", "--.."];
   const map = {};
-  for (let i = 0; i < arr.length; i++) {
-      map[String.fromCharCode(97+i)] = arr[i];
+  for (let i = 0; i < morseCode.length; i++) {
+    map[String.fromCharCode(97 + i)] = morseCode[i];
   }
   return map;
 };
