@@ -19,10 +19,14 @@ class Timer {
     }
     this.tick();
     this.interval = setInterval(this.tick, 50);
+    this.startButton.setAttribute("disabled", "");
+    this.pauseButton.removeAttribute("disabled");
   }
 
   pause = () => {
     clearInterval(this.interval);
+    this.pauseButton.setAttribute("disabled", "");
+    this.startButton.removeAttribute("disabled");
   }
 
   tick = () => {
@@ -35,6 +39,8 @@ class Timer {
       this.pause();
       if (this.onComplete) {
         this.onComplete();
+        this.startButton.removeAttribute("disabled");
+        this.pauseButton.removeAttribute("disabled");
       }
     }
   }
