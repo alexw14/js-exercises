@@ -9,16 +9,10 @@ const fetchData = async (searchInput) => {
   console.log(response.data);
 };
 
-const input = document.querySelector('#movie-search');
-
-let timeoutId;
 const getMoviesData = event => {
-  if (timeoutId) {
-    clearTimeout(timeoutId);
-  }
-  timeoutId = setTimeout(() => {
-    fetchData(event.target.value);
-  }, 1000);
+  fetchData(event.target.value);
 };
 
-input.addEventListener('input', getMoviesData);
+const movieSearchInput = document.querySelector('#movie-search');
+
+movieSearchInput.addEventListener('input', debounce(getMoviesData, 500));
