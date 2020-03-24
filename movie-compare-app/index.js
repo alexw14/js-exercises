@@ -13,12 +13,20 @@ const fetchData = async (searchInput) => {
 
 const getMoviesData = async (event) => {
   const moviesData = await fetchData(event.target.value);
+  if (!moviesData.length) {
+    dropdown.classList.remove('is-active');
+    return;
+  }
+  // clear search results
+  resultsWrapper.innerHTML = '';
   dropdown.classList.add('is-active');
+  // iterate and populate search results
   for (let movie of moviesData) {
     const option = document.createElement('a');
+    const imgSrc = movie.Poster !== "N/A" ? movie.Poster : '';
     option.classList.add('dropdown-item');
     option.innerHTML = `
-      <img src="${movie.Poster}" />
+      <img src="${imgSrc}" />
       ${movie.Title}
     `;
     resultsWrapper.appendChild(option);
@@ -41,3 +49,10 @@ const dropdown = document.querySelector('.dropdown');
 const resultsWrapper = document.querySelector('.results');
 
 movieSearchInput.addEventListener('input', debounce(getMoviesData, 500));
+
+// Global event listener for closing drop down when user clicks out of it
+document.addEventListener('click', (event) => {
+  if (!root.contains(event.target)) {
+    dropdown.classList.remove('is-active');
+  }
+});
