@@ -1,7 +1,8 @@
-const { Engine, Render, Runner, World, Bodies, MouseConstraint, Mouse } = Matter;
+const { Engine, Render, Runner, World, Bodies } = Matter;
 
-const width = 800;
+const width = 600;
 const height = 600;
+const cells = 3;
 
 const engine = Engine.create();
 const world = engine.world;
@@ -11,30 +12,35 @@ const render = Render.create({
   options: {
     width,
     height,
-    wireframes: false
+    wireframes: true
   }
 });
 Render.run(render);
 Runner.run(Runner.create(), engine);
 
-World.add(world, MouseConstraint.create(engine, {
-  mouse: Mouse.create(render.canvas)
-}))
 
-// Walls
+// Outer Walls
 const walls = [
-  Bodies.rectangle(400, 0, 800, 40, { isStatic: true }),
-  Bodies.rectangle(400, 600, 800, 40, { isStatic: true }),
-  Bodies.rectangle(0, 300, 40, 600, { isStatic: true }),
-  Bodies.rectangle(800, 300, 40, 600, { isStatic: true })
-]
+  Bodies.rectangle(width / 2, 0, width, 40, { isStatic: true }),
+  Bodies.rectangle(width / 2, height, width, 40, { isStatic: true }),
+  Bodies.rectangle(0, height / 2, 40, height, { isStatic: true }),
+  Bodies.rectangle(width, height / 2, 40, height, { isStatic: true })
+];
 World.add(world, walls);
 
-// Shapes
-for (let i = 0; i < 20; i++) {
-  if (Math.random() > 0.5) {
-    World.add(world, Bodies.rectangle(Math.random() * width, Math.random() * height, 50, 50))
-  } else {
-    World.add(world, Bodies.circle(Math.random() * width, Math.random() * height, 25))
-  }
-}
+// Maze Generation
+const grid = Array(cells).fill(null).map(() => {
+  return Array(cells).fill(false);
+});
+
+const verticals = Array(cells).fill(null).map(() => {
+  return Array(cells - 1).fill(false);
+});
+
+const horizontals = Array(cells - 1).fill(null).map(() => {
+  return Array(cells).fill(false);
+});
+
+console.log(grid);
+console.log(verticals);
+console.log(horizontals);
