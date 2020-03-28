@@ -2,7 +2,8 @@ const { Engine, Render, Runner, World, Bodies } = Matter;
 
 const width = 600;
 const height = 600;
-const cells = 3;
+const cells = 10;
+const unitLength = width / cells;
 
 const engine = Engine.create();
 const world = engine.world;
@@ -12,7 +13,7 @@ const render = Render.create({
   options: {
     width,
     height,
-    wireframes: true
+    wireframes: false
   }
 });
 Render.run(render);
@@ -97,3 +98,40 @@ const stepThroughCell = (row, col) => {
 }
 
 stepThroughCell(startRow, startColumn);
+
+// Creating Walls
+horizontals.forEach((row, rowIndex) => {
+  row.forEach((open, columnIndex) => {
+    if (open === true) {
+      return;
+    }
+    const wall = Bodies.rectangle(
+      columnIndex * unitLength + unitLength / 2,
+      rowIndex * unitLength + unitLength,
+      unitLength,
+      10,
+      {
+        isStatic: true
+      }
+    )
+    World.add(world, wall);
+  })
+});
+
+verticals.forEach((row, rowIndex) => {
+  row.forEach((open, columnIndex) => {
+    if (open === true) {
+      return;
+    }
+    const wall = Bodies.rectangle(
+      columnIndex * unitLength + unitLength,
+      rowIndex * unitLength + unitLength / 2,
+      10,
+      unitLength,
+      {
+        isStatic: true
+      }
+    )
+    World.add(world, wall);
+  })
+});
