@@ -3,6 +3,7 @@
 const debounce = require("lodash.debounce");
 const chokidar = require("chokidar");
 const program = require("caporal");
+const chalk = require("chalk");
 const fs = require("fs");
 const { spawn } = require("child_process");
 
@@ -18,8 +19,13 @@ program
       throw new Error(`Could not find the file ${name}`);
     }
 
+    let proc;
+    console.log(chalk.blue(">>>> Starting process..."));
     const start = debounce(() => {
-      spawn("node", [name], { stdio: "inherit" });
+      if (proc) {
+        proc.kill();
+      }
+      proc = spawn("node", [name], { stdio: "inherit" });
     }, 100);
 
     chokidar
