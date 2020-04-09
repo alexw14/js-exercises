@@ -36,6 +36,27 @@ class UsersDB {
     );
   }
 
+  async getOne(id) {
+    const records = await this.getAll();
+    return records.find(record => record.id === id);
+  }
+
+  async delete(id) {
+    const records = await this.getAll();
+    const filteredRecords = records.filter(record => record.id !== id);
+    await this.writeAll(filteredRecords);
+  }
+
+  async update(id, userData) {
+    const records = await this.getAll();
+    const record = records.find(record => record.id === id);
+    if (!record) {
+      throw new Error(`Record with id ${id} not found`);
+    }
+    Object.assign(record, userData);
+    await this.writeAll(records);
+  }
+
   generateRandomId() {
     return crypto.randomBytes(4).toString("hex");
   }
@@ -44,10 +65,6 @@ class UsersDB {
 const test = async () => {
   const userDB = new UsersDB("users.json");
 
-  await userDB.create({ email: "test@test.com", password: "password" });
-
-  const users = await userDB.getAll();
-  console.log(users);
 };
 
 test();
