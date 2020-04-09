@@ -57,14 +57,24 @@ class UsersDB {
     await this.writeAll(records);
   }
 
+  async getOneBy(filters) {
+    const records = await this.getAll();
+    for (let record of records) {
+      let found = true;
+      for (let key in filters) {
+        if (record[key] !== filters[key]) {
+          found = false;
+        }
+      }
+      if (found) {
+        return record;
+      }
+    }
+  }
+
   generateRandomId() {
     return crypto.randomBytes(4).toString("hex");
   }
 }
 
-const test = async () => {
-  const userDB = new UsersDB("users.json");
-
-};
-
-test();
+module.exports = new UsersDB("users.json");
