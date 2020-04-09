@@ -1,5 +1,6 @@
 const express = require("express");
 const bodyParser = require("body-parser");
+const usersDB = require("./db/users");
 
 const app = express();
 
@@ -11,15 +12,23 @@ app.get("/", (req, res) => {
       <form method="POST">
         <input name="email" placeholder="email" />
         <input name="password" placeholder="password" />
-        <input name="passwordConf" placeholder="password confirmation" />
+        <input name="passwordConfirmation" placeholder="password confirmation" />
         <button>Sign up</button>
       </form>
     </div>
   `);
 });
 
-app.post("/", (req, res) => {
-  console.log(req.body);
+app.post("/", async (req, res) => {
+  const { email, password, passwordConfirmation } = req.body;
+  const existingUser = await usersDB.getOneBy({ email });
+  if (existingUser) {
+    return res.send("Email already taken");
+  }
+  if (password !== passwordConfirmation) {
+    return res.send("Password do not match")
+  }
+
   res.send("created");
 });
 
