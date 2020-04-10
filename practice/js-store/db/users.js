@@ -27,6 +27,7 @@ class UsersDB {
     const records = await this.getAll();
     records.push(userData);
     await this.writeAll(records);
+    return userData;
   }
 
   async writeAll(records) {
