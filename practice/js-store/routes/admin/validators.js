@@ -29,5 +29,33 @@ module.exports = {
       if (passwordConfirmation !== req.body.password) {
         throw new Error("Password do not match");
       }
+    }),
+
+  requireEmailExists: check("email")
+    .trim()
+    .normalizeEmail()
+    .isEmail()
+    .withMessage("Please provide a valid email")
+    .custom(async email => {
+      const user = await usersDB.getOneBy({ email });
+      if (!user) {
+        throw new Error("Email not found");
+      }
+    }),
+
+  requireValidPassword: check("password")
+    .trim()
+    .custom(async (password, { req }) => {
+      const user = await usersDB.getOneBy({ email: req.body.email });
+      if (!user) {
+        throw new Error("Invalid password");
+      }
+      const validPassword = await usersDB.comparePasswords(
+        user.password,
+        password
+      );
+      if (!validPassword) {
+        throw new Error("Invalid password");
+      }
     })
 };
