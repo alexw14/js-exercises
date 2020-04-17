@@ -26,7 +26,7 @@ router.post(
     const { email, password } = req.body;
     const user = await usersDB.create({ email, password });
     req.session.userId = user.id;
-    res.send("created");
+    res.redirect("/admin/products");
   }
 );
 
@@ -47,7 +47,7 @@ router.post(
     const { email } = req.body;
     const user = await usersDB.getOneBy({ email });
     req.session.userId = user.id;
-    res.send("Logged In!");
+    res.redirect("/admin/products");
   }
 );
 

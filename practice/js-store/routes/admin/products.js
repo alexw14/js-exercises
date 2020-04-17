@@ -3,13 +3,17 @@ const multer = require("multer");
 
 const productsDB = require("../../db/products");
 const productsNewTemplate = require("../../views/admin/products/new");
+const productsIndexTemplate = require("../../views/admin/products/index");
 const { requireTitle, requirePrice } = require("./validators");
 const { handleErrors } = require("./middlewares");
 
 const router = express.Router();
 const upload = multer({ storage: multer.memoryStorage() });
 
-router.get("/admin/products", (req, res) => {});
+router.get("/admin/products", async (req, res) => {
+  const products = await productsDB.getAll();
+  res.send(productsIndexTemplate({ products }));
+});
 
 router.get("/admin/products/new", (req, res) => {
   res.send(productsNewTemplate({}));
@@ -24,7 +28,7 @@ router.post(
     const image = req.file.buffer.toString("base64");
     const { title, price } = req.body;
     await productsDB.create({ title, price, image });
-    res.send("Added");
+    res.redirect("/admin/products");
   }
 );
 
