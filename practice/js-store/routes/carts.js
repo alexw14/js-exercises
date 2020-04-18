@@ -1,5 +1,7 @@
 const express = require("express");
 const cartsDB = require("../db/carts");
+const productsDB = require("../db/products");
+const cartShowTemplate = require("../views/carts/show");
 
 const router = express.Router();
 
@@ -15,7 +17,7 @@ router.post("/cart/products", async (req, res) => {
   const existingItem = cart.items.find(item => {
     return item.id === req.body.productId;
   });
-  console.log(existingItem)
+  console.log(existingItem);
   if (existingItem) {
     existingItem.quantity++;
   } else {
@@ -27,8 +29,18 @@ router.post("/cart/products", async (req, res) => {
   res.send("Product Added To Cart");
 });
 
-router.get("/cart/products", (req, res) => {
-  res.send("Added");
+router.get("/cart", async (req, res) => {
+  if (!req.session.cartId) {
+    return res.redirect("/");
+  }
+  const cart = await cartsDB.getOne(req.session.cartId);
+
+  for (let item of cart.items) {
+    const product = await productsDB.getOne(item.id);
+    item.product = product;
+  }
+
+  res.send(cartShowTemplate({ items: cart.items }));
 });
 
 module.exports = router;
